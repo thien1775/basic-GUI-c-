@@ -1,19 +1,24 @@
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <stdio.h>
 
+
+GtkWidget *button1;
+GtkWidget *button2;
+GtkWidget *window;
+temp = 0;
 void
 print_hello(GtkWidget * widget, gpointer   data)
 {
-	g_print("Hello World\n");
+	g_print("Hello World %d\n", temp);
+	temp++;
 }
 
 int
 main(int argc, char *argv[])
 {
-	GtkWidget *window;
 	GtkWidget *box;
-	GtkWidget *button1;
-	GtkWidget *button2;
+
 
 	gtk_init(&argc, &argv);
 
@@ -39,7 +44,14 @@ main(int argc, char *argv[])
 	g_signal_connect(button2, "clicked",
 		G_CALLBACK(print_hello),
 		window);
-
+	const gchar *str1;
+	const gchar *str2;
+	for (int i = 0; i < 10; i++) {
+		asprintf(&str1, "hello %d", temp);
+		asprintf(&str2, "hello %d", temp + 1);
+		gtk_button_set_label(button1, str1);
+		gtk_button_set_label(button2, str2);
+	}
 	gtk_main();
 
 	return 0;
